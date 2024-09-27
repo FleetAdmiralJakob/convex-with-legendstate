@@ -3,7 +3,7 @@
 import { api } from "../../convex/_generated/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useObservableSyncedQuery } from "@legendapp/state/sync-plugins/tanstack-react-query";
-import { convexQuery } from "@convex-dev/react-query";
+import { convexQuery, useConvexMutation } from "@convex-dev/react-query";
 import { observer } from "@legendapp/state/react";
 import { ObservablePersistLocalStorage } from "@legendapp/state/persist-plugins/local-storage";
 
@@ -12,6 +12,7 @@ const Home = observer(() => {
   const state$ = useObservableSyncedQuery({
     queryClient,
     query: convexQuery(api.tasks.get, {}),
+    mutation: { mutationFn: useConvexMutation(api.tasks.set) },
     persist: {
       name: "persistKey",
       // Choose where to save it
